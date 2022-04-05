@@ -6,7 +6,7 @@
 #    By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/04 11:30:00 by wdebotte          #+#    #+#              #
-#    Updated: 2022/04/04 11:34:38 by wdebotte         ###   ########.fr        #
+#    Updated: 2022/04/05 18:34:00 by wdebotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,18 +26,20 @@ CYAN	= \033[96m
 # => VARIABLES
 ################################################################################
 
-NAME		= philosophers
+NAME		= philo
 
 PATHSRCS	= ./srcs/
 PATHNULL	= /dev/null
 
 SRCS		= ${PATHSRCS}main.c \
+			${PATHSRCS}utils.c
 
 OBJS		= ${SRCS:.c=.o}
 HEADERS		= ./philosophers.h
 
 CC			= clang
 CFLAGS		= -Wall -Wextra -Werror
+THREAD		= -pthread
 INCS		= -I.
 
 RM			= rm -rf
@@ -52,13 +54,13 @@ FLAGH		= -R CheckDefine
 
 .c.o:
 				@echo "${BOLD}${YELLOW}Compiling:${END}\t$<"
-				@${CC} ${CFLAGS} ${INCS} -c $< -o ${<:.c=.o} >${PATHNULL}
+				@${CC} ${THREAD} ${CFLAGS} ${INCS} -c $< -o ${<:.c=.o} >${PATHNULL}
 
 all:		${NAME}
 
 ${NAME}:	${OBJS}
 				@echo "${BOLD}${GREEN}Building:${END}\t${NAME}"
-				@${CC} ${OBJS} ${INCS} -o ${NAME} >${PATHNULL}
+				@${CC} ${THREAD} ${OBJS} ${INCS} -o ${NAME} >${PATHNULL}
 
 clean:
 				@echo "${BOLD}${RED}Removing:${END}\tAll .o files"
