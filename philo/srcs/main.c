@@ -6,16 +6,26 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:29:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/07 16:06:39 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:09:49 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <sys/time.h>
+
+void	*routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo*)arg;
+	if (philo->status == NONE || philo->status == SLEEP)
+		philo_eating(philo);
+	return (NULL);
+}
 
 int	main(int argc, char **argv)
 {
-	(void)argv;
+	t_infos	infos;
+
 	if (argc < 5 || argc > 6)
 	{
 		printf("Usage: ./philo \t[number of philosophers]\n\t\t[time to die]\
@@ -23,4 +33,13 @@ int	main(int argc, char **argv)
 each philosopher must eat(optionnal)]\nAll time must be in ms!\n");
 		return (1);
 	}
+	if (get_infos(&infos, argc, argv) > 0)
+		return (1);
+	if (init_philos(&infos) > 0)
+		return (1);
+	if (init_threads(&infos) > 0)
+		return (1);
+	destroy_mutexes(&infos);
+	free(infos.philos);
+	return (0);
 }
