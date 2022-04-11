@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 13:57:21 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/08 16:18:27 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/11 11:08:40 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,12 @@ int	can_eat(t_philo *philo, t_sideforks *forks)
 	if (infos->n_philos < 2)
 		return (FALSE);
 	set_side_philos(philo, forks);
-	pthread_mutex_lock(&forks->philo_right->mutex_fork);
-	pthread_mutex_lock(&forks->philo_left->mutex_fork);
+	pthread_mutex_lock(&philo->mutex_fork);
 	if (forks->philo_right->has_fork == TRUE
 			&& forks->philo_left->has_fork == TRUE)
 		return (TRUE);
 	else
-	{
-		pthread_mutex_unlock(&forks->philo_right->mutex_fork);
-		pthread_mutex_unlock(&forks->philo_left->mutex_fork);
-	}
+		pthread_mutex_unlock(&philo->mutex_fork);
 	return (FALSE);
 }
 
@@ -77,10 +73,12 @@ int	philo_eating(t_philo *philo)
 		usleep(philo->infos->time_eat);
 		forks.philo_right->has_fork = TRUE;
 		forks.philo_left->has_fork = TRUE;
-		pthread_mutex_unlock(&forks.philo_right->mutex_fork);
-		pthread_mutex_unlock(&forks.philo_left->mutex_fork);
+		pthread_mutex_unlock(&philo->mutex_fork);
 		return (TRUE);
 	}
 	else
+	{
+		philo->status = DIED;
 		return (FALSE);
+	}
 }

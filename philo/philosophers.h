@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:36:27 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/08 14:23:02 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/11 11:02:45 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define EAT	1
 # define THINK	2
 # define SLEEP	3
+# define DIED	4
 
 # define FALSE	0
 # define TRUE	1
