@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 18:34:04 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/08 11:59:54 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:01:34 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	ft_atoi(char *str)
 	return (nbr * is_negativ);
 }
 
-unsigned long int	get_time(void)
+unsigned long long	get_time(void)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 void	destroy_mutexes(t_infos *infos)

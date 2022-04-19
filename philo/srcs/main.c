@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:29:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/11 11:09:54 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:34:17 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ void	*routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo*)arg;
-	while (philo->status != DIED || philo->status == NONE)
+	philo = (t_philo *)arg;
+	if (philo->time_start == 0)
+		philo->time_start = get_time();
+	while (philo->infos->thr_alive == TRUE)
 	{
-		if (philo->status == NONE || philo->status == SLEEP)
-			philo_eating(philo);
+		if (philo->status == THINK)
+		{
+			philo->start_eat = get_time();
+			if (philo_eating(philo) == FALSE)
+				break ;
+		}
 	}
-	printf("Philosopher [%i] died\n", philo->id);
 	return (NULL);
 }
 

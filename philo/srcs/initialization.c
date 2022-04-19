@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:41:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/08 16:18:02 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:19:21 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,29 @@ int	get_infos(t_infos *infos, int argc, char **argv)
 		return (ft_putstr("Args error: All time must be > than 0.\n"));
 	if (argc == 6)
 		infos->max_eat = ft_atoi(argv[5]);
-	infos->time_start = get_time();
+	infos->thr_alive = TRUE;
+	return (0);
+}
+
+int	init_forks(t_infos *infos)
+{
+	int		i;
+	int		id;
+	t_philo	*philo;
+
+	i = 0;
+	while (i < infos->n_philos)
+	{
+		philo = &infos->philos[i];
+		id = philo->id - 1;
+		if (infos->n_philos == 1)
+			infos->philos[i].right_philo = NULL;
+		else if (philo->id + 1 > infos->n_philos)
+			infos->philos[i].right_philo = &infos->philos[0];
+		else
+			infos->philos[i].right_philo = &infos->philos[id + 1];
+		i++;
+	}
 	return (0);
 }
 
@@ -39,15 +61,16 @@ int	init_philos(t_infos *infos)
 	while (i < infos->n_philos)
 	{
 		infos->philos[i].id = i + 1;
-		infos->philos[i].status = NONE;
+		infos->philos[i].status = THINK;
 		infos->philos[i].has_fork = TRUE;
 		infos->philos[i].has_eaten = 0;
+		infos->philos[i].time_start = 0;
 		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
 			return (1);
 		infos->philos[i].infos = infos;
 		i++;
 	}
-	return (0);
+	return (init_forks(infos));
 }
 
 int	init_threads(t_infos *infos)

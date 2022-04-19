@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:36:27 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/11 11:02:45 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:28:47 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define NONE	0
-# define EAT	1
-# define THINK	2
+# define THINK	1
+# define EAT	2
 # define SLEEP	3
-# define DIED	4
 
 # define FALSE	0
 # define TRUE	1
@@ -33,24 +31,27 @@ typedef struct s_infos	t_infos;
 
 struct s_philo
 {
-	int				id;
-	int				status;
-	int				has_fork;
-	int				has_eaten;
-	pthread_t		thread;
-	pthread_mutex_t	mutex_fork;
-	t_infos			*infos;
+	int					id;
+	int					status;
+	int					has_fork;
+	int					has_eaten;
+	unsigned long long	time_start;
+	unsigned long long	start_eat;
+	t_philo				*right_philo;
+	pthread_t			thread;
+	pthread_mutex_t		mutex_fork;
+	t_infos				*infos;
 };
 
 struct s_infos
 {
-	int					n_philos;
-	int					time_die;
-	int					time_eat;
-	int					time_sleep;
-	int					max_eat;
-	unsigned long int	time_start;
-	t_philo				*philos;
+	int		n_philos;
+	int		time_die;
+	int		time_eat;
+	int		time_sleep;
+	int		max_eat;
+	int		thr_alive;
+	t_philo	*philos;
 };
 
 int					ft_strlen(char *str);
@@ -64,6 +65,6 @@ int					philo_eating(t_philo *philo);
 void				*routine(void *arg);
 void				destroy_mutexes(t_infos *infos);
 
-unsigned long int	get_time(void);
+unsigned long long	get_time(void);
 
 #endif
