@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:29:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/19 18:34:17 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 23:32:54 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,24 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->time_start == 0)
-		philo->time_start = get_time();
+	philo->time_start = get_time();
 	while (philo->infos->thr_alive == TRUE)
 	{
-		if (philo->status == THINK)
+		take_forks(philo);
+		philo->start_eat = get_time();
+		if (philo_eating(philo) == FALSE)
 		{
-			philo->start_eat = get_time();
-			if (philo_eating(philo) == FALSE)
-				break ;
+			printf("prout\n");
+			break ;
 		}
+		drop_forks(philo);
+		philo->status = SLEEP;
+		printf("%lli %i is sleeping\n", get_time() - philo->time_start,
+			philo->id);
+		usleep(philo->infos->time_sleep * 1000);
+		philo->status = THINK;
+		printf("%lli %i is thinking\n", get_time() - philo->time_start,
+			philo->id);
 	}
 	return (NULL);
 }

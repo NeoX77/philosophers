@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:41:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/19 17:19:21 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/19 23:08:09 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	init_philos(t_infos *infos)
 	{
 		infos->philos[i].id = i + 1;
 		infos->philos[i].status = THINK;
-		infos->philos[i].has_fork = TRUE;
 		infos->philos[i].has_eaten = 0;
 		infos->philos[i].time_start = 0;
 		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
