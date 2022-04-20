@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:36:27 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/19 23:23:29 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:42:41 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define THINK	1
 # define EAT	2
 # define SLEEP	3
+# define DEAD	4
 
 # define FALSE	0
 # define TRUE	1
@@ -35,7 +36,6 @@ struct s_philo
 	int					status;
 	int					has_eaten;
 	unsigned long long	time_start;
-	unsigned long long	start_eat;
 	unsigned long long	last_eat;
 	t_philo				*right_philo;
 	pthread_t			thread;
@@ -61,12 +61,14 @@ int					ft_atoi(char *str);
 int					get_infos(t_infos *infos, int argc, char **argv);
 int					init_philos(t_infos *infos);
 int					init_threads(t_infos *infos);
-int					philo_eating(t_philo *philo);
 
 void				*routine(void *arg);
 void				destroy_mutexes(t_infos *infos);
 void				take_forks(t_philo *philo);
 void				drop_forks(t_philo *philo);
+void				philo_eating(t_philo *philo);
+void				philo_sleeping_and_thinking(t_philo *philo);
+void				check_philo_died(t_infos *infos);
 
 unsigned long long	get_time(void);
 
