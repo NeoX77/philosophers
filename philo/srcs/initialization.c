@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:41:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/20 17:45:09 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/22 14:11:54 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	get_infos(t_infos *infos, int argc, char **argv)
 	if (argc == 6)
 		infos->max_eat = ft_atoi(argv[5]);
 	infos->thr_alive = TRUE;
+	if (pthread_mutex_init(&infos->mutex_message, NULL) != 0)
+		return (ft_putstr("Mutex error: Can't init mutex.\n"));
 	return (0);
 }
 
@@ -65,8 +67,9 @@ int	init_philos(t_infos *infos)
 		infos->philos[i].has_eaten = 0;
 		infos->philos[i].time_start = 0;
 		infos->philos[i].last_eat = 0;
-		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
-			return (1);
+		if (pthread_mutex_init(&infos->philos[i].mutex, NULL) != 0
+			|| pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
+			return (ft_putstr("Mutex error: Can't init mutex(es)."));
 		infos->philos[i].infos = infos;
 		i++;
 	}
@@ -82,7 +85,7 @@ int	init_threads(t_infos *infos)
 	{
 		if (pthread_create(&infos->philos[i].thread, NULL, &routine,
 				&infos->philos[i]) != 0)
-			return (ft_putstr("Thread error: Can't create thread !\n"));
+			return (ft_putstr("Thread error: Can't create thread.\n"));
 		i++;
 	}
 	while (infos->thr_alive == TRUE)
@@ -91,7 +94,7 @@ int	init_threads(t_infos *infos)
 	while (i < infos->n_philos)
 	{
 		if (pthread_join(infos->philos[i].thread, NULL) != 0)
-			return (ft_putstr("Thread error: Can't join thread !\n"));
+			return (ft_putstr("Thread error: Can't join thread.\n"));
 		i++;
 	}
 	return (0);

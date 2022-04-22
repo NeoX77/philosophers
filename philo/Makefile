@@ -6,7 +6,7 @@
 #    By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/04 11:30:00 by wdebotte          #+#    #+#              #
-#    Updated: 2022/04/20 16:31:27 by wdebotte         ###   ########.fr        #
+#    Updated: 2022/04/22 13:35:36 by wdebotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,10 @@ PATHNULL	= /dev/null
 
 SRCS		= ${PATHSRCS}main.c \
 			${PATHSRCS}utils.c \
+			${PATHSRCS}utils_philo.c \
 			${PATHSRCS}initialization.c \
-			${PATHSRCS}philo_status.c
+			${PATHSRCS}philo_status.c \
+			${PATHSRCS}messages.c
 
 OBJS		= ${SRCS:.c=.o}
 HEADERS		= ./philosophers.h

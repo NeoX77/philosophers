@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:36:27 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/20 17:42:41 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/22 14:31:22 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define THINK	1
-# define EAT	2
-# define SLEEP	3
+# define FORK	0
+# define EAT	1
+# define SLEEP	2
+# define THINK	3
 # define DEAD	4
 
 # define FALSE	0
@@ -46,13 +47,14 @@ struct s_philo
 
 struct s_infos
 {
-	int		n_philos;
-	int		time_die;
-	int		time_eat;
-	int		time_sleep;
-	int		max_eat;
-	int		thr_alive;
-	t_philo	*philos;
+	int				n_philos;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				max_eat;
+	int				thr_alive;
+	pthread_mutex_t	mutex_message;
+	t_philo			*philos;
 };
 
 int					ft_strlen(char *str);
@@ -69,6 +71,7 @@ void				drop_forks(t_philo *philo);
 void				philo_eating(t_philo *philo);
 void				philo_sleeping_and_thinking(t_philo *philo);
 void				check_philo_died(t_infos *infos);
+void				print_message(t_philo *philo, int type);
 
 unsigned long long	get_time(void);
 
