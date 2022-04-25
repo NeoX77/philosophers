@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 11:29:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/20 17:23:57 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:15:36 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->time_start = get_time();
+	philo->last_eat = philo->time_start;
 	if (philo->id % 2 == 1)
-		usleep(philo->infos->time_eat * 1000);
+	{
+		if (_usleep(philo->infos, philo->infos->time_eat * 1000) == FALSE)
+			return (NULL);
+	}
 	while (philo->infos->thr_alive == TRUE)
 	{
 		take_forks(philo);

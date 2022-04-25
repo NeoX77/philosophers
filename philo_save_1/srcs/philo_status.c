@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 13:57:21 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/22 14:30:46 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:16:39 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,34 @@ void	philo_eating(t_philo *philo)
 {
 	if (philo->infos->thr_alive == FALSE)
 		return ;
-	pthread_mutex_lock(&philo->mutex);
+	pthread_mutex_lock(&philo->infos->mutex);
 	philo->status = EAT;
 	print_message(philo, EAT);
 	philo->has_eaten++;
-	usleep(philo->infos->time_eat * 1000);
 	philo->last_eat = get_time();
-	pthread_mutex_unlock(&philo->mutex);
+	if (_usleep(philo->infos, philo->infos->time_eat * 1000) == FALSE)
+	{
+		pthread_mutex_unlock(&philo->infos->mutex);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->infos->mutex);
 }
 
 void	philo_sleeping_and_thinking(t_philo *philo)
 {
 	if (philo->infos->thr_alive == FALSE)
 		return ;
-	pthread_mutex_lock(&philo->mutex);
+	pthread_mutex_lock(&philo->infos->mutex);
 	philo->status = SLEEP;
 	print_message(philo, SLEEP);
-	usleep(philo->infos->time_sleep * 1000);
-	pthread_mutex_unlock(&philo->mutex);
-	if (philo->infos->thr_alive == FALSE)
+	if (_usleep(philo->infos, philo->infos->time_sleep * 1000) == FALSE)
+	{
+		pthread_mutex_unlock(&philo->infos->mutex);
 		return ;
-	pthread_mutex_lock(&philo->mutex);
+	}
 	philo->status = THINK;
 	print_message(philo, THINK);
-	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->infos->mutex);
 }
 
 void	check_philo_died(t_infos *infos)
@@ -66,8 +70,9 @@ void	check_philo_died(t_infos *infos)
 	while (i < infos->n_philos)
 	{
 		if (get_time() - infos->philos[i].last_eat
-			<= (unsigned long long)infos->time_die * 1000)
+			> (unsigned long long)infos->time_die)
 		{
+			printf("%lli, %lli, %i\n", get_time(), infos->philos[i].last_eat, infos->time_die);
 			infos->philos[i].status = DEAD;
 			print_message(&infos->philos[i], DEAD);
 			infos->thr_alive = FALSE;
