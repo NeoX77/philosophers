@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 15:24:30 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:15:54 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ composed by digits.\n"));
 composed by digits.\n"));
 	}
 	infos->thr_alive = TRUE;
+	if (pthread_mutex_init(&infos->mutex, NULL) != 0
+		|| pthread_mutex_init(&infos->mutex_message, NULL) != 0)
+		return (_putstr("Mutex error: Can't init mutex.\n"));
 	return (0);
 }
 
@@ -41,7 +44,7 @@ int	set_forks(t_infos *infos)
 	i = -1;
 	while (++i < infos->n_philos)
 	{
-		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) > 0)
+		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
 			return (_putstr("Mutex error: Can't init mutex.\n"));
 		if (i == 0)
 			continue ;
@@ -68,4 +71,21 @@ int	set_philos(t_infos *infos)
 		infos->philos[i].infos = infos;
 	}
 	return (set_forks(infos));
+}
+
+int	set_threads(t_infos *infos)
+{
+	int	i;
+
+	i = -1;
+	while (++i < infos->n_philos)
+		if (pthread_create(&infos->philos[i].thread, NULL, &routine,
+			&infos->philos[i]) != 0)
+			return (_putstr("Thread error: Can't create thread.\n"));
+//	check_died_philos(infos);
+	i = -1;
+	while (++i < infos->n_philos)
+		if (pthread_join(infos->philos[i].thread, NULL) != 0)
+			return (_putstr("Thread error: Can't join thread.\n"));
+	return (0);
 }

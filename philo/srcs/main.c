@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:17:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 14:41:17 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:11:20 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	main(int argc, char **argv)
 each philosopher must eat(optionnal)]\nAll time must be in ms!\n");
 		return (1);
 	}
-	if (set_infos(&infos, argc, argv) > 0)
+	if (set_infos(&infos, argc, argv) != 0)
 		return (1);
-	return (0);
+	if (set_philos(&infos) != 0)
+		return (1);
+	if (set_threads(&infos) != 0)
+		return (1);
+	return (exit_program(&infos));
 }
