@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:15:54 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:57:16 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	set_threads(t_infos *infos)
 	i = -1;
 	while (++i < infos->n_philos)
 		if (pthread_create(&infos->philos[i].thread, NULL, &routine,
-			&infos->philos[i]) != 0)
+				&infos->philos[i]) != 0)
 			return (_putstr("Thread error: Can't create thread.\n"));
 //	check_died_philos(infos);
 	i = -1;

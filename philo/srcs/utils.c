@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:28:40 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:20:20 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:59:08 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exit_program(t_infos *infos)
 	return (0);
 }
 
-unsigned long long	get_ms_time(void)
+unsigned long long	get_time(void)
 {
 	struct timeval	time;
 

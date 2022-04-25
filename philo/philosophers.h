@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:16:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:28:09 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:58:52 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ struct s_philo
 	t_infos				*infos;
 };
 
+//Messages
+void				print_message(t_philo *philo, int type);
+
 //Routine
 void				*routine(void *arg);
 
@@ -68,6 +71,6 @@ int					_strlen(char *str);
 int					_putstr(char *str);
 int					_atoi(char *str);
 int					exit_program(t_infos *infos);
-unsigned long long	get_ms_time(void);
+unsigned long long	get_time(void);
 
 #endif
