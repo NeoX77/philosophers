@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 17:09:55 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:18:23 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*set_color(int type)
 
 void	print_message(t_philo *philo, int type)
 {
+	pthread_mutex_lock(&philo->infos->mutex_message);
 	printf("%s%lli %i ", set_color(type), get_time() - philo->time_start,
 		philo->id);
 	if (type == FORK)
@@ -47,4 +48,5 @@ void	print_message(t_philo *philo, int type)
 		printf("is thinking\n%s", END);
 	else
 		printf("died\n%s", END);
+	pthread_mutex_unlock(&philo->infos->mutex_message);
 }

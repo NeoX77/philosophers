@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:57:16 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:47:32 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ composed by digits.\n"));
 	{
 		infos->must_eat = _atoi(argv[5]);
 		if (infos->must_eat <= 0)
-			return (_putstr("Args error: must_eat must be > than 0 and only \
-composed by digits.\n"));
+		{
+			_putstr("Args error: must_eat must be > than 0 and only composed \
+by digits.\nValue is ignored.\n");
+			infos->must_eat = -1;
+		}
 	}
 	infos->thr_alive = TRUE;
 	if (pthread_mutex_init(&infos->mutex, NULL) != 0
@@ -43,15 +46,15 @@ int	set_forks(t_infos *infos)
 
 	i = -1;
 	while (++i < infos->n_philos)
-	{
 		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
 			return (_putstr("Mutex error: Can't init mutex.\n"));
-		if (i == 0)
-			continue ;
-		else if (i + 1 == infos->n_philos)
-			infos->philos[i].mutex_rfork = &infos->philos[0].mutex_fork;
+	i = -1;
+	while (++i < infos->n_philos)
+	{
+		if (i == infos->n_philos - 1)
+			infos->philos[i].rphilo = &infos->philos[0];
 		else
-			infos->philos[i - 1].mutex_rfork = &infos->philos[i].mutex_fork;
+			infos->philos[i].rphilo = &infos->philos[i + 1];
 	}
 	return (0);
 }
