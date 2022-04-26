@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/26 13:09:18 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:48:59 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	set_infos(t_infos *infos, int argc, char **argv)
 	if (infos->time_die <= 0 || infos->time_eat <= 0 || infos->time_sleep <= 0)
 		return (_putstr("Args error: All times must be > than 0 and only \
 composed by digits.\n"));
+	infos->must_eat = -1;
+	infos->all_eaten = FALSE;
 	if (argc == 6)
 	{
 		infos->must_eat = _atoi(argv[5]);
@@ -40,13 +42,14 @@ by digits.\nValue is ignored.\n");
 	return (0);
 }
 
-int	set_forks(t_infos *infos)
+int	set_philos_mutexes(t_infos *infos)
 {
 	int	i;
 
 	i = -1;
 	while (++i < infos->n_philos)
-		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
+		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0
+			|| pthread_mutex_init(&infos->philos[i].mutex, NULL) != 0)
 			return (_putstr("Mutex error: Can't init mutex.\n"));
 	i = -1;
 	while (++i < infos->n_philos)
@@ -76,7 +79,7 @@ int	set_philos(t_infos *infos)
 			infos->philos[i].n_eat = -1;
 		infos->philos[i].infos = infos;
 	}
-	return (set_forks(infos));
+	return (set_philos_mutexes(infos));
 }
 
 int	set_threads(t_infos *infos)

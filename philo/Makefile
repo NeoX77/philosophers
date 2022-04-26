@@ -6,7 +6,7 @@
 #    By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/04 11:30:00 by wdebotte          #+#    #+#              #
-#    Updated: 2022/04/26 12:11:37 by wdebotte         ###   ########.fr        #
+#    Updated: 2022/04/26 16:23:52 by wdebotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,8 @@ HEADERS		= ./philosophers.h
 
 CC			= clang
 CFLAGS		= -Wall -Wextra -Werror
-THREAD		= -pthread 
-#THREAD		= -pthread -fsanitize=thread
+#THREAD		= -pthread 
+THREAD		= -pthread -fsanitize=thread
 INCS		= -I.
 
 RM			= rm -rf

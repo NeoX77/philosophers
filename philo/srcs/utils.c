@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:28:40 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:59:08 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:49:54 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	exit_program(t_infos *infos)
 	i = -1;
 	while (++i < infos->n_philos)
 	{
-		if (pthread_mutex_destroy(&infos->philos[i].mutex_fork) != 0)
+		if (pthread_mutex_destroy(&infos->philos[i].mutex) != 0
+			|| pthread_mutex_destroy(&infos->philos[i].mutex_fork) != 0)
 			printf("Mutex error: An error occured destroying mutex [%i].\n",
 				infos->philos[i].id);
 	}

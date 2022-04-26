@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:16:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/26 13:08:48 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:48:27 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ struct s_infos
 	int				time_eat;
 	int				time_sleep;
 	int				must_eat;
+	int				all_eaten;
 	int				thr_alive;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	mutex_message;
@@ -50,6 +51,7 @@ struct s_philo
 	int					n_eat;
 	unsigned long long	time_start;
 	unsigned long long	start_eat;
+	pthread_mutex_t		mutex;
 	pthread_mutex_t		mutex_fork;
 	t_philo				*rphilo;
 	pthread_t			thread;
