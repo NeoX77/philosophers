@@ -6,7 +6,7 @@
 #    By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/04 11:30:00 by wdebotte          #+#    #+#              #
-#    Updated: 2022/04/25 17:15:58 by wdebotte         ###   ########.fr        #
+#    Updated: 2022/04/26 12:11:37 by wdebotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS		= ${PATHSRCS}main.c \
 			${PATHSRCS}utils.c \
 			${PATHSRCS}init.c \
 			${PATHSRCS}routine.c \
-			${PATHSRCS}messages.c
+			${PATHSRCS}messages.c \
+			${PATHSRCS}thread_died.c
 
 OBJS		= ${SRCS:.c=.o}
 HEADERS		= ./philosophers.h

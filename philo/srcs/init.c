@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 17:47:32 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:09:18 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	set_philos(t_infos *infos)
 	while (++i < infos->n_philos)
 	{
 		infos->philos[i].id = i + 1;
-		infos->philos[i].n_eat = 0;
+		if (infos->must_eat != -1)
+			infos->philos[i].n_eat = 0;
+		else
+			infos->philos[i].n_eat = -1;
 		infos->philos[i].infos = infos;
 	}
 	return (set_forks(infos));
@@ -82,10 +85,14 @@ int	set_threads(t_infos *infos)
 
 	i = -1;
 	while (++i < infos->n_philos)
+	{
+		infos->philos[i].time_start = get_time();
+		infos->philos[i].start_eat = infos->philos[i].time_start;
 		if (pthread_create(&infos->philos[i].thread, NULL, &routine,
 				&infos->philos[i]) != 0)
 			return (_putstr("Thread error: Can't create thread.\n"));
-//	check_died_philos(infos);
+	}
+	check_died_philos(infos);
 	i = -1;
 	while (++i < infos->n_philos)
 		if (pthread_join(infos->philos[i].thread, NULL) != 0)

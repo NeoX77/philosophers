@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:16:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 17:46:48 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:08:48 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,26 @@ struct s_philo
 	int					id;
 	int					n_eat;
 	unsigned long long	time_start;
+	unsigned long long	start_eat;
 	pthread_mutex_t		mutex_fork;
 	t_philo				*rphilo;
 	pthread_t			thread;
 	t_infos				*infos;
 };
 
-//Message
-void				print_message(t_philo *philo, int type);
-
-//Routine
-void				*routine(void *arg);
-
 //Init
 int					set_infos(t_infos *infos, int argc, char **argv);
 int					set_philos(t_infos *infos);
 int					set_threads(t_infos *infos);
+
+//Routine
+void				*routine(void *arg);
+
+//Died thread
+void				check_died_philos(t_infos *infos);
+
+//Message
+void				print_message(t_philo *philo, int type);
 
 //Utils
 int					_strlen(char *str);
