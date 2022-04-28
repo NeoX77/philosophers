@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/26 16:02:58 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:54:09 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ char	*set_color(int type)
 void	print_message(t_philo *philo, int type)
 {
 	pthread_mutex_lock(&philo->infos->mutex);
-	if (philo->infos->thr_alive == FALSE)
-	{
-		pthread_mutex_unlock(&philo->infos->mutex);
+	if (philo->infos->thr_alive == FALSE
+		&& pthread_mutex_unlock(&philo->infos->mutex) == 0)
 		return ;
-	}
 	pthread_mutex_unlock(&philo->infos->mutex);
 	pthread_mutex_lock(&philo->infos->mutex_message);
 	printf("%s%lli %i ", set_color(type), get_time() - philo->time_start,
