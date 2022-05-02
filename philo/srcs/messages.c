@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/28 12:54:09 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/02 16:16:40 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ char	*set_color(int type)
 void	print_message(t_philo *philo, int type)
 {
 	pthread_mutex_lock(&philo->infos->mutex);
-	if (philo->infos->thr_alive == FALSE
+	if ((philo->infos->thr_alive == FALSE || philo->infos->all_eaten == TRUE)
 		&& pthread_mutex_unlock(&philo->infos->mutex) == 0)
 		return ;
 	pthread_mutex_unlock(&philo->infos->mutex);
 	pthread_mutex_lock(&philo->infos->mutex_message);
-	printf("%s%lli %i ", set_color(type), get_time() - philo->time_start,
+	printf("%s%lli %i ", set_color(type), get_time() - philo->infos->time_start,
 		philo->id);
 	if (type == FORK)
 		printf("has taken a fork\n%s", END);

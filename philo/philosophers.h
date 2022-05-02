@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:16:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/26 16:48:27 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/02 17:38:41 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,23 @@ typedef struct s_philo	t_philo;
 
 struct s_infos
 {
-	int				n_philos;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
-	int				must_eat;
-	int				all_eaten;
-	int				thr_alive;
-	pthread_mutex_t	mutex;
-	pthread_mutex_t	mutex_message;
-	t_philo			*philos;
+	int					n_philos;
+	int					time_die;
+	int					time_eat;
+	int					time_sleep;
+	int					must_eat;
+	int					all_eaten;
+	int					thr_alive;
+	unsigned long long	time_start;
+	pthread_mutex_t		mutex;
+	pthread_mutex_t		mutex_message;
+	t_philo				*philos;
 };
 
 struct s_philo
 {
 	int					id;
-	int					n_eat;
-	unsigned long long	time_start;
+	inte				n_eat;
 	unsigned long long	start_eat;
 	pthread_mutex_t		mutex;
 	pthread_mutex_t		mutex_fork;

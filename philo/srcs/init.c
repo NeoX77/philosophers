@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/26 16:48:59 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/02 16:43:23 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	set_infos(t_infos *infos, int argc, char **argv)
 {
 	infos->n_philos = _atoi(argv[1]);
 	if (infos->n_philos < 1)
-		return (_putstr("Args error: Minimum 1 philosopher is needed.\n"));
+		return (_putstr("Args error: Philosophers must be > than 0.\n"));
 	infos->time_die = _atoi(argv[2]);
 	infos->time_eat = _atoi(argv[3]);
 	infos->time_sleep = _atoi(argv[4]);
@@ -51,6 +51,11 @@ int	set_philos_mutexes(t_infos *infos)
 		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0
 			|| pthread_mutex_init(&infos->philos[i].mutex, NULL) != 0)
 			return (_putstr("Mutex error: Can't init mutex.\n"));
+	if (infos->n_philos == 1)
+	{
+		infos->philos[0].rphilo = NULL;
+		return (0);
+	}
 	i = -1;
 	while (++i < infos->n_philos)
 	{
@@ -86,11 +91,11 @@ int	set_threads(t_infos *infos)
 {
 	int	i;
 
+	infos->time_start = get_time();
 	i = -1;
 	while (++i < infos->n_philos)
 	{
-		infos->philos[i].time_start = get_time();
-		infos->philos[i].start_eat = infos->philos[i].time_start;
+		infos->philos[i].start_eat = get_time();
 		if (pthread_create(&infos->philos[i].thread, NULL, &routine,
 				&infos->philos[i]) != 0)
 			return (_putstr("Thread error: Can't create thread.\n"));
