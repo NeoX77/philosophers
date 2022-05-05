@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:03:02 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 12:00:51 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:26:59 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	check_all_philos(t_infos *infos)
 			pthread_mutex_unlock(&infos->mutex);
 			return (-1);
 		}
-		if (infos->philos[i].n_eat != -1
+	/*	if (infos->philos[i].n_eat != -1
 			&& infos->philos[i].n_eat == infos->must_eat)
-			eat++;
+			eat++;*/
 		pthread_mutex_unlock(&infos->philos[i].mutex);
 	}
 	return (eat);
@@ -44,8 +44,13 @@ void	check_died_philos(t_infos *infos)
 {
 	int	eat;
 
-	while (infos->thr_alive == TRUE && infos->all_eaten == FALSE)
+	while (1)
 	{
+		pthread_mutex_lock(&infos->mutex);
+		if ((infos->thr_alive == FALSE || infos->all_eaten == TRUE)
+			&& pthread_mutex_unlock(&infos->mutex) == 0)
+			return ;
+		pthread_mutex_unlock(&infos->mutex);
 		eat = check_all_philos(infos);
 		if (eat == -1)
 			return ;

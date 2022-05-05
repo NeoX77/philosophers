@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/04 15:13:39 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:00:27 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ void	print_message(t_philo *philo, int type)
 	pthread_mutex_lock(&philo->infos->mutex_message);
 	pthread_mutex_lock(&philo->infos->mutex);
 	if ((philo->infos->thr_alive == FALSE || philo->infos->all_eaten == TRUE)
-		&& pthread_mutex_unlock(&philo->infos->mutex) == 0)
-	{
-		pthread_mutex_unlock(&philo->infos->mutex_message);
+		&& pthread_mutex_unlock(&philo->infos->mutex) == 0
+		&& pthread_mutex_unlock(&philo->infos->mutex_message) == 0)
 		return ;
-	}
 	pthread_mutex_unlock(&philo->infos->mutex);
 	printf("%s%lli %i ", set_color(type), get_time() - philo->infos->time_start,
 		philo->id);
@@ -55,6 +53,11 @@ void	print_message(t_philo *philo, int type)
 	else if (type == THINK)
 		printf("is thinking\n%s", END);
 	else
+	{
+		pthread_mutex_lock(&philo->infos->mutex);
+		philo->infos->thr_alive = FALSE;
+		pthread_mutex_unlock(&philo->infos->mutex);
 		printf("died\n%s", END);
+	}
 	pthread_mutex_unlock(&philo->infos->mutex_message);
 }

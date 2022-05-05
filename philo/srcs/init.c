@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 12:14:01 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:24:47 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	set_infos(t_infos *infos, int argc, char **argv)
 {
 	infos->n_philos = _atoi(argv[1]);
 	if (infos->n_philos < 1)
-		return (_putstr("Args error: Philosophers must be > than 0.\n"));
+		return (_putstr("Args error: Philosophers must be > than 0 and only \
+composed by digits.\n"));
 	infos->time_die = _atoi(argv[2]);
 	infos->time_eat = _atoi(argv[3]);
 	infos->time_sleep = _atoi(argv[4]);

@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:03:47 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 14:27:58 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:25:17 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,17 @@ void	*routine(void *arg)
 	pthread_mutex_lock(&philo->mutex);
 	philo->start_eat = get_time();
 	pthread_mutex_unlock(&philo->mutex);
-	if (philo->infos->n_philos % 2 == 0 && philo->id % 2 == 0)
+	if (philo->infos->n_philos % 2 == 0 && philo->id % 2 == 1)
 		usleep(philo->infos->time_eat * 1000);
 	else if (philo->infos->n_philos % 2 == 1)
 		usleep((philo->infos->time_eat * (philo->id % 3)) * 1000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->infos->mutex);
-		if (philo->infos->thr_alive == FALSE || philo->infos->all_eaten == TRUE)
-		{
-			pthread_mutex_unlock(&philo->infos->mutex);
+		if ((philo->infos->thr_alive == FALSE
+				|| philo->infos->all_eaten == TRUE)
+			&& pthread_mutex_unlock(&philo->infos->mutex) == 0)
 			break ;
-		}
 		pthread_mutex_unlock(&philo->infos->mutex);
 		philo_takes_forks(philo);
 		philo_eat(philo);
