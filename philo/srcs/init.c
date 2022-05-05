@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/02 16:43:23 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 12:14:01 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,13 @@ composed by digits.\n"));
 	if (argc == 6)
 	{
 		infos->must_eat = _atoi(argv[5]);
-		if (infos->must_eat <= 0)
-		{
-			_putstr("Args error: must_eat must be > than 0 and only composed \
-by digits.\nValue is ignored.\n");
-			infos->must_eat = -1;
-		}
+		if (infos->must_eat < 0)
+			return (_putstr("Args error: must_eat must be > or = than 0 and \
+only composed by digits.\n"));
 	}
 	infos->thr_alive = TRUE;
 	if (pthread_mutex_init(&infos->mutex, NULL) != 0
+		|| pthread_mutex_init(&infos->mutex_init, NULL) != 0
 		|| pthread_mutex_init(&infos->mutex_message, NULL) != 0)
 		return (_putstr("Mutex error: Can't init mutex.\n"));
 	return (0);
@@ -48,8 +46,8 @@ int	set_philos_mutexes(t_infos *infos)
 
 	i = -1;
 	while (++i < infos->n_philos)
-		if (pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0
-			|| pthread_mutex_init(&infos->philos[i].mutex, NULL) != 0)
+		if (pthread_mutex_init(&infos->philos[i].mutex, NULL) != 0
+			|| pthread_mutex_init(&infos->philos[i].mutex_fork, NULL) != 0)
 			return (_putstr("Mutex error: Can't init mutex.\n"));
 	if (infos->n_philos == 1)
 	{
@@ -91,7 +89,7 @@ int	set_threads(t_infos *infos)
 {
 	int	i;
 
-	infos->time_start = get_time();
+	pthread_mutex_lock(&infos->mutex_init);
 	i = -1;
 	while (++i < infos->n_philos)
 	{
@@ -100,6 +98,8 @@ int	set_threads(t_infos *infos)
 				&infos->philos[i]) != 0)
 			return (_putstr("Thread error: Can't create thread.\n"));
 	}
+	infos->time_start = get_time();
+	pthread_mutex_unlock(&infos->mutex_init);
 	check_died_philos(infos);
 	i = -1;
 	while (++i < infos->n_philos)

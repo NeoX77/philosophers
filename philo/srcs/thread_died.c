@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 12:03:02 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/02 16:07:26 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/05 12:00:51 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	check_died_philos(t_infos *infos)
 			pthread_mutex_unlock(&infos->mutex);
 			return ;
 		}
+		usleep(200);
 	}
 }
