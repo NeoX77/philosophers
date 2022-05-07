@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:03:47 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 15:25:17 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 05:14:20 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ void	philo_sleep(t_philo *philo)
 	print_message(philo, THINK);
 }
 
+/* /!\ IN CASE OF PROBLEM WITH ODD /!\ -> Make 3 groups of philos
+if (philo->rphilo && philo->infos->n_philos % 2 == 0 && philo->id % 2 == 0)
+	_usleep(philo, philo->infos->time_eat);
+else if (philo->rphilo && philo->infos->n_philos % 2 == 1)
+	_usleep(philo, (philo->infos->time_eat * (philo->id % 3)));
+*/
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -92,10 +98,8 @@ void	*routine(void *arg)
 	pthread_mutex_lock(&philo->mutex);
 	philo->start_eat = get_time();
 	pthread_mutex_unlock(&philo->mutex);
-	if (philo->infos->n_philos % 2 == 0 && philo->id % 2 == 1)
-		usleep(philo->infos->time_eat * 1000);
-	else if (philo->infos->n_philos % 2 == 1)
-		usleep((philo->infos->time_eat * (philo->id % 3)) * 1000);
+	if (philo->id % 2 == 0)
+		_usleep(philo, philo->infos->time_eat);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->infos->mutex);

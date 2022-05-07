@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:17:45 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/04/25 16:11:20 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 03:46:18 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ each philosopher must eat(optionnal)]\nAll time must be in ms!\n");
 	}
 	if (set_infos(&infos, argc, argv) != 0)
 		return (1);
+	if (infos.must_eat == 0)
+		return (_putstr("Philosophers aren't hungry!\n")
+			&& exit_program(&infos, FALSE));
 	if (set_philos(&infos) != 0)
 		return (1);
 	if (set_threads(&infos) != 0)
 		return (1);
-	return (exit_program(&infos));
+	return (exit_program(&infos, TRUE));
 }

@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:28:40 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 15:23:17 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 03:38:55 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,25 @@ int	_atoi(char *str)
 	return (nbr);
 }
 
-int	exit_program(t_infos *infos)
+int	exit_program(t_infos *infos, int philos_init)
 {
 	int	i;
 
-	i = -1;
-	while (++i < infos->n_philos)
-	{
-		if (pthread_mutex_destroy(&infos->philos[i].mutex) != 0
-			|| pthread_mutex_destroy(&infos->philos[i].mutex_fork) != 0)
-			printf("Mutex error: An error occured destroying mutex [%i].\n",
-				infos->philos[i].id);
-	}
 	if (pthread_mutex_destroy(&infos->mutex) != 0
 		|| pthread_mutex_destroy(&infos->mutex_message) != 0)
 		_putstr("Mutex error: Can't destroy infos mutexes.\n");
-	free(infos->philos);
+	if (philos_init == TRUE)
+	{
+		i = -1;
+		while (++i < infos->n_philos)
+		{
+			if (pthread_mutex_destroy(&infos->philos[i].mutex) != 0
+				|| pthread_mutex_destroy(&infos->philos[i].mutex_fork) != 0)
+				printf("Mutex error: An error occured destroying mutex [%i].\n",
+					infos->philos[i].id);
+		}
+		free(infos->philos);
+	}
 	return (0);
 }
 

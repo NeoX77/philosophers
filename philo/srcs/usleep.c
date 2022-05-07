@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 11:25:24 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 14:52:37 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 02:09:38 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	_usleep(t_philo *philo, unsigned long time)
 {
 	unsigned long long	end;
 
-	(void)philo;
 	end = get_time() + time;
 	while (get_time() < end)
 	{

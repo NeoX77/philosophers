@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/05 15:00:27 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 03:29:58 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,38 @@ char	*set_color(int type)
 		return (RED);
 }
 
+void	print_eating(t_philo *philo)
+{
+	int	i;
+	int	eat;
+
+	eat = 0;
+	i = -1;
+	while (++i < philo->infos->n_philos)
+	{
+		pthread_mutex_lock(&philo->infos->philos[i].mutex);
+		if (philo->infos->philos[i].n_eat != -1
+			&& philo->infos->philos[i].n_eat == philo->infos->must_eat)
+			eat++;
+		pthread_mutex_unlock(&philo->infos->philos[i].mutex);
+	}
+	if (eat == philo->infos->n_philos)
+	{
+		pthread_mutex_lock(&philo->infos->mutex);
+		philo->infos->all_eaten = TRUE;
+		pthread_mutex_unlock(&philo->infos->mutex);
+	}
+	printf("is eating\n%s", END);
+}
+
+void	print_died(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->infos->mutex);
+	philo->infos->thr_alive = FALSE;
+	pthread_mutex_unlock(&philo->infos->mutex);
+	printf("died\n%s", END);
+}
+
 void	print_message(t_philo *philo, int type)
 {
 	pthread_mutex_lock(&philo->infos->mutex_message);
@@ -47,17 +79,12 @@ void	print_message(t_philo *philo, int type)
 	if (type == FORK)
 		printf("has taken a fork\n%s", END);
 	else if (type == EAT)
-		printf("is eating\n%s", END);
+		print_eating(philo);
 	else if (type == SLEEP)
 		printf("is sleeping\n%s", END);
 	else if (type == THINK)
 		printf("is thinking\n%s", END);
 	else
-	{
-		pthread_mutex_lock(&philo->infos->mutex);
-		philo->infos->thr_alive = FALSE;
-		pthread_mutex_unlock(&philo->infos->mutex);
-		printf("died\n%s", END);
-	}
+		print_died(philo);
 	pthread_mutex_unlock(&philo->infos->mutex_message);
 }
