@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:39:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/07 04:09:10 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 06:04:39 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 int	set_infos(t_infos *infos, int argc, char **argv)
 {
-	infos->n_philos = _atoi(argv[1]);
+	infos->n_philos = _atoli(argv[1]);
 	if (infos->n_philos < 1)
-		return (_putstr("Args error: Philosophers must be > than 0 and only \
-composed by digits.\n"));
-	infos->time_die = _atoi(argv[2]);
-	infos->time_eat = _atoi(argv[3]);
-	infos->time_sleep = _atoi(argv[4]);
+		return (_putstr("Args error: Philosophers must be > than 0, only \
+composed by digits and must not overflow.\n"));
+	infos->time_die = _atoli(argv[2]);
+	infos->time_eat = _atoli(argv[3]);
+	infos->time_sleep = _atoli(argv[4]);
 	if (infos->time_die <= 0 || infos->time_eat <= 0 || infos->time_sleep <= 0)
-		return (_putstr("Args error: All times must be > than 0 and only \
-composed by digits.\n"));
+		return (_putstr("Args error: All times must be > than 0, only composed \
+by digits and must not overflow.\n"));
 	infos->must_eat = -1;
 	infos->all_eaten = FALSE;
 	if (argc == 6)
 	{
-		infos->must_eat = _atoi(argv[5]);
+		infos->must_eat = _atoli(argv[5]);
 		if (infos->must_eat < 0)
-			return (_putstr("Args error: must_eat must be > or = than 0 and \
-only composed by digits.\n"));
+			return (_putstr("Args error: must_eat must be > or = than 0, only  \
+composed by digits and must not overflow.\n"));
 	}
 	infos->thr_alive = TRUE;
 	if (pthread_mutex_init(&infos->mutex, NULL) != 0

@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:28:40 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/07 03:38:55 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 05:56:47 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,11 @@ int	_putstr(char *str)
 	return (write(1, str, _strlen(str)));
 }
 
-int	_atoi(char *str)
+long int	_atoli(char *str)
 {
 	long int	nbr;
 
 	nbr = 0;
-	while (*str && ((*str >= 9 && *str <= 13) || *str == ' '))
-		str++;
-	if (*str == '-' || *str == '+')
-		return (-1);
 	while (*str != '\0')
 	{
 		if (*str < '0' || *str > '9')
@@ -43,6 +39,8 @@ int	_atoi(char *str)
 		nbr = nbr * 10 + *str - '0';
 		str++;
 	}
+	if (nbr > 2147483647)
+		return (-1);
 	return (nbr);
 }
 

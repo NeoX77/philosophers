@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 13:16:54 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/07 03:39:38 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 05:55:23 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int					_usleep(t_philo *philo, unsigned long time);
 //Utils
 int					_strlen(char *str);
 int					_putstr(char *str);
-int					_atoi(char *str);
 int					exit_program(t_infos *infos, int init_philos);
+long int			_atoli(char *str);
 unsigned long long	get_time(void);
 
 #endif
