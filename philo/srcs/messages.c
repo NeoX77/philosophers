@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/07 05:34:04 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 05:39:58 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	print_eating(t_philo *philo)
 		philo->infos->all_eaten = TRUE;
 		pthread_mutex_unlock(&philo->infos->mutex);
 	}
-	printf("is eating\n%s", END);
+	printf("is eating%s\n", END);
 }
 
 void	print_died(t_philo *philo)
@@ -62,7 +62,7 @@ void	print_died(t_philo *philo)
 	pthread_mutex_lock(&philo->infos->mutex);
 	philo->infos->thr_alive = FALSE;
 	pthread_mutex_unlock(&philo->infos->mutex);
-	printf("died\n%s", END);
+	printf("died%s\n", END);
 }
 
 void	print_message(t_philo *philo, int type)
@@ -77,18 +77,18 @@ void	print_message(t_philo *philo, int type)
 	printf("%s%lli %i ", set_color(type), get_time() - philo->infos->time_start,
 		philo->id);
 	if (type == FORK)
-		printf("has taken a fork\n%s", END);
+		printf("has taken a fork%s\n", END);
 	else if (type == EAT)
 	{
 		if (philo->infos->must_eat != -1)
 			print_eating(philo);
 		else
-			printf("is eating\n%s", END);
+			printf("is eating%s\n", END);
 	}
 	else if (type == SLEEP)
-		printf("is sleeping\n%s", END);
+		printf("is sleeping%s\n", END);
 	else if (type == THINK)
-		printf("is thinking\n%s", END);
+		printf("is thinking%s\n", END);
 	else
 		print_died(philo);
 	pthread_mutex_unlock(&philo->infos->mutex_message);
