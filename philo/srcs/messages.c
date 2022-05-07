@@ -6,7 +6,7 @@
 /*   By: wdebotte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:27:30 by wdebotte          #+#    #+#             */
-/*   Updated: 2022/05/07 03:29:58 by wdebotte         ###   ########.fr       */
+/*   Updated: 2022/05/07 05:34:04 by wdebotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ void	print_message(t_philo *philo, int type)
 	if (type == FORK)
 		printf("has taken a fork\n%s", END);
 	else if (type == EAT)
-		print_eating(philo);
+	{
+		if (philo->infos->must_eat != -1)
+			print_eating(philo);
+		else
+			printf("is eating\n%s", END);
+	}
 	else if (type == SLEEP)
 		printf("is sleeping\n%s", END);
 	else if (type == THINK)
