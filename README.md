@@ -24,7 +24,3 @@ To eat in the bowl they have forks but there are as many forks as philosophers. 
 
 All variables that can be accessed by two threads at the same time have to be protected with a mutex to avoid dataraces and leaks.  
 This [link](https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/ "link") explain how it works.
-
-## Score
-
-[![wdebotte's 42 Philosophers Score](https://badge42.vercel.app/api/v2/cl2zu1sil002509mf9zd91hy6/project/2552135)](https://github.com/JaeSeoKim/badge42)
